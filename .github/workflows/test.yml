@@ -1,0 +1,26 @@
+name: Test Ruby client
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ['3.2', '3.4']
+    container: ruby:${{ matrix.ruby }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - run: bundle install
+      - run: bundle exec ruby -Ilib test/client_test.rb
+      - run: gem build mailchannels-email-api.gemspec
+      - run: gem install --local ./mailchannels-email-api-0.1.0.gem
+      - name: Installed gem smoke test (no network request)
+        working-directory: /tmp
+        run: ruby -rmailchannels/email_api -e 'abort unless MailChannels::EmailAPI::VERSION == "0.1.0"'
