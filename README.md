@@ -1,7 +1,7 @@
 # MailChannels Email API Ruby client
 
 Prepared implementation, not yet published to RubyGems. The proposed gem name
-is `mailchannels-email-api`. This repository is the public development source. Release ownership, native transport/live
+is `mailchannels-email-api`. This repository is the public development source. Release ownership, live
 validation and RubyGems publishing access remain required before a gem release.
 Support: dev@mailchannels.com. Report reproducible bugs through this repository’s issues.
 
@@ -72,10 +72,15 @@ from your application service or job; it does not change `ActionMailer` settings
 
 ```sh
 bundle install
-bundle exec ruby -Ilib test/client_test.rb
+bundle exec ruby -Ilib -e 'Dir["test/*_test.rb"].sort.each { |file| require_relative file }'
 gem build mailchannels-email-api.gemspec
 ```
 
-Tests replace the HTTP session and never use credentials or send email. See [RELEASING.md](RELEASING.md) for the release gates.
+Unit tests replace the HTTP session; eight native transport tests use a local TLS server with
+synthetic credentials and messages. They exercise the real Net::HTTP transport, preserve API
+hostname verification, and route only the expected API socket to loopback. Native tests cover
+empty202, dry-run200, untrusted CA, hostname mismatch, redirects, HTTP errors, disconnect after
+receipt and the actual30-second read timeout. No real API request or email is sent. The full
+suite takes about31seconds. These checks do not replace separately authorized provider validation. See [RELEASING.md](RELEASING.md) for the release gates.
 Bundler may compile the `json` dependency; development containers need a C
 compiler and make (for example, Debian's `build-essential` package).
