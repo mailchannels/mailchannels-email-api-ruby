@@ -142,18 +142,8 @@ class NativeTransportTest < Minitest::Test
     assert_empty @requests
   end
 
-  def test_redirects_not_followed
-    [301, 302, 303, 307, 308].each do |status|
-      @status = status
-      before = @requests.size
-      error = assert_raises(API::APIError) { call }
-      assert_equal status, error.status
-      assert_equal before + 1, @requests.size
-    end
-  end
-
-  def test_api_errors_not_retried
-    [400, 401, 429, 500, 503].each do |status|
+  def test_redirects_and_api_errors_not_followed_or_retried
+    [301, 302, 303, 307, 308, 400, 401, 429, 500, 503].each do |status|
       @status = status
       before = @requests.size
       error = assert_raises(API::APIError) { call }

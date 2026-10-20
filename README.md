@@ -76,7 +76,7 @@ bundle exec ruby -Ilib -e 'Dir["test/*_test.rb"].sort.each { |file| require_rela
 gem build mailchannels-email-api.gemspec
 ```
 
-Unit tests replace the HTTP session; seven native transport tests use a local TLS server with
+Unit tests replace the HTTP session; six native transport tests use a local TLS server with
 synthetic credentials and messages. They exercise the real Net::HTTP transport, preserve API
 hostname verification, and route only the expected API socket to loopback. Native tests cover
 empty202, dry-run200, untrusted CA, hostname mismatch, redirects, HTTP errors and disconnect after
