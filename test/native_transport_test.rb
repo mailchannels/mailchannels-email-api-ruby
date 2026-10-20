@@ -13,7 +13,6 @@ class NativeTransportTest < Minitest::Test
   def setup
     @requests = []
     @threads = []
-    @sockets = []
     @status = 202
     @mode = :response
     @original_new = Net::HTTP.method(:new)
@@ -45,7 +44,6 @@ class NativeTransportTest < Minitest::Test
       loop do
         begin
           socket = @server.accept
-          @sockets << socket
           @threads << Thread.new(socket) { |connection| handle(connection) }
         rescue OpenSSL::SSL::SSLError
           # Expected for the untrusted-CA and hostname-mismatch tests.
@@ -82,7 +80,6 @@ class NativeTransportTest < Minitest::Test
     @tcp.close unless @tcp.closed?
     @acceptor.kill.join
     @threads.each { |thread| thread.kill.join }
-    @sockets.each { |socket| socket.close rescue nil }
   end
 
   def teardown
@@ -132,7 +129,6 @@ class NativeTransportTest < Minitest::Test
 
   def test_hostname_mismatch_rejected_before_request
     stop_server
-    @threads = []; @sockets = []
     start_server('wrong.example.test')
     assert_raises(API::TransportError) { call }
     assert_empty @requests
