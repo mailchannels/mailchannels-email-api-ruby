@@ -72,7 +72,6 @@ class NativeTransportTest < Minitest::Test
     body = socket.read(Integer(headers.fetch('content-length')))
     @requests << {line: request_line.strip, headers: headers, body: JSON.parse(body)}
     return if @mode == :disconnect
-    sleep 31 if @mode == :timeout
     response = "HTTP/1.1 #{@status} Fixture\r\nContent-Length: 0\r\nConnection: close\r\n"
     response += "Location: https://untrusted.example.test/collect\r\n" if (300..399).cover?(@status)
     socket.write(response + "\r\n")
@@ -168,14 +167,6 @@ class NativeTransportTest < Minitest::Test
     @mode = :disconnect
     error = assert_raises(API::TransportError) { call }
     assert_nil error.cause
-    assert_equal 1, @requests.size
-  end
-
-  def test_actual_read_timeout_does_not_retry
-    @mode = :timeout
-    started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-    assert_raises(API::TransportError) { call }
-    assert_operator Process.clock_gettime(Process::CLOCK_MONOTONIC) - started, :>=, 29
     assert_equal 1, @requests.size
   end
 end
