@@ -3,7 +3,6 @@
 require 'minitest/autorun'
 require 'minitest/mock'
 require 'socket'
-require 'tmpdir'
 require 'mailchannels/email_api'
 
 # Only connection routing and fixture CA trust change. The client's real Net::HTTP,
@@ -17,7 +16,6 @@ class NativeTransportTest < Minitest::Test
     @sockets = []
     @status = 202
     @mode = :response
-    @tmp = Dir.mktmpdir
     @original_new = Net::HTTP.method(:new)
     start_server('api.mailchannels.net')
   end
@@ -36,8 +34,7 @@ class NativeTransportTest < Minitest::Test
     cert.add_extension(factory.create_extension('basicConstraints', 'CA:TRUE', true))
     cert.add_extension(factory.create_extension('subjectAltName', "DNS:#{hostname}"))
     cert.sign(key, OpenSSL::Digest::SHA256.new)
-    @ca = File.join(@tmp, 'fixture-ca.pem')
-    File.write(@ca, cert.to_pem)
+    @cert = cert
     context = OpenSSL::SSL::SSLContext.new
     context.cert = cert
     context.key = key
@@ -90,7 +87,6 @@ class NativeTransportTest < Minitest::Test
 
   def teardown
     stop_server
-    FileUtils.remove_entry(@tmp)
   end
 
   def call(dry_run: false, trusted: true)
@@ -98,7 +94,7 @@ class NativeTransportTest < Minitest::Test
       assert_equal ['api.mailchannels.net', 443, nil], [host, port, proxy]
       http = @original_new.call(host, @port, nil)
       http.ipaddr = '127.0.0.1'
-      http.ca_file = @ca if trusted
+      http.cert_store = OpenSSL::X509::Store.new.tap { |store| store.add_cert(@cert) } if trusted
       http
     end
     Net::HTTP.stub(:new, route) do
