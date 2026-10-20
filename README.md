@@ -79,7 +79,7 @@ gem build mailchannels-email-api.gemspec
 Unit tests replace the HTTP session; six native transport tests use a local TLS server with
 synthetic credentials and messages. They exercise the real Net::HTTP transport, preserve API
 hostname verification, and route only the expected API socket to loopback. Native tests cover
-empty202, dry-run200, untrusted CA, hostname mismatch, redirects, HTTP errors and disconnect after
+empty 202, dry-run 200, untrusted CA, hostname mismatch, redirects, HTTP errors and disconnect after
 receipt. No real API request or email is sent. These checks do not replace separately authorized provider validation. See [RELEASING.md](RELEASING.md) for the release gates.
 Bundler may compile the `json` dependency; development containers need a C
 compiler and make (for example, Debian's `build-essential` package).
