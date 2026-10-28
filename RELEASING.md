@@ -1,8 +1,7 @@
 # Release checklist
 
-This client is not yet published to RubyGems. The version in source is a candidate,
-not proof of an available gem. Support is dev@mailchannels.com; a named release
-operator and MailChannels-controlled RubyGems publisher must be established.
+Releases are published to RubyGems from the company `mailchannels` account
+(MFA required). Support is dev@mailchannels.com.
 
 1. Create the company-controlled RubyGems account, complete email verification/MFA,
    and keep recovery credentials in company credential management. Recheck gem name

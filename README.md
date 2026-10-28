@@ -1,8 +1,7 @@
 # MailChannels Email API Ruby client
 
-Prepared implementation, not yet published to RubyGems. The proposed gem name
-is `mailchannels-email-api`. This repository is the public development source. Release ownership, live
-validation and RubyGems publishing access remain required before a gem release.
+Published on RubyGems as [`mailchannels-email-api`](https://rubygems.org/gems/mailchannels-email-api).
+This repository is the public development source.
 Support: dev@mailchannels.com. Report reproducible bugs through this repository’s issues.
 
 This Ruby 3.2+ client calls the current MailChannels Email API directly with an
@@ -12,11 +11,10 @@ Cloudflare Worker. It is a sending client, not an Action Mailer delivery backend
 
 ## Try a validation request
 
-Build and install locally from this directory:
+Install the gem:
 
 ```sh
-gem build mailchannels-email-api.gemspec
-gem install ./mailchannels-email-api-0.1.0.gem
+gem install mailchannels-email-api
 ```
 
 Provide `MAILCHANNELS_API_KEY` through your environment or secret store. Configure
