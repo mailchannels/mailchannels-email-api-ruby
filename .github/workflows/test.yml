@@ -18,7 +18,7 @@ jobs:
         with:
           persist-credentials: false
       - run: bundle install
-      - run: bundle exec ruby -Ilib test/client_test.rb
+      - run: bundle exec ruby -Ilib -e 'Dir["test/*_test.rb"].sort.each { |file| require_relative file }'
       - run: gem build mailchannels-email-api.gemspec
       - run: gem install --local ./mailchannels-email-api-0.1.0.gem
       - name: Installed gem smoke test (no network request)
