@@ -1,7 +1,7 @@
 # Release checklist
 
 Releases are published to RubyGems from the company `mailchannels` account
-(MFA required). Support is dev@mailchannels.com.
+(MFA required). User support is described in the README's Support section.
 
 1. Create the company-controlled RubyGems account, complete email verification/MFA,
    and keep recovery credentials in company credential management. Recheck gem name
@@ -13,7 +13,7 @@ Releases are published to RubyGems from the company `mailchannels` account
 3. Run the test matrix and build/install checks. Obtain separately authorized live
    dry-run validation using a configured sender and permitted recipient. A dry run
    must return 200 with validated? true and accepted? false. No live send is part of CI.
-4. Review gem files, license, dependencies, README, source/issue URLs and support.
+4. Review gem files, license, dependencies, README, source/issue URLs and the README Support section.
    Build the exact reviewed commit with gem build mailchannels-email-api.gemspec.
 5. Publish the reviewed artifact using the company account and normal authenticated
    gem push flow. This repository has no automated publishing workflow or secrets.
