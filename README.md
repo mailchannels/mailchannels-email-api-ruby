@@ -1,8 +1,8 @@
 # MailChannels Email API Ruby client
 
 Published on RubyGems as [`mailchannels-email-api`](https://rubygems.org/gems/mailchannels-email-api).
-This repository is the public development source.
-Support: dev@mailchannels.com. Report reproducible bugs through this repository’s issues.
+This repository is the public development source. See [Support](#support) for
+how to get help.
 
 This Ruby 3.2+ client calls the current MailChannels Email API directly with an
 API key. It accepts the API's full send payload, including personalizations,
@@ -81,3 +81,9 @@ empty 202, dry-run 200, untrusted CA, hostname mismatch, redirects, HTTP errors 
 receipt. No real API request or email is sent. These checks do not replace separately authorized provider validation. See [RELEASING.md](RELEASING.md) for the release gates.
 Bundler may compile the `json` dependency; development containers need a C
 compiler and make (for example, Debian's `build-essential` package).
+
+## Support
+
+This project is supported by the MailChannels team on a best-effort basis. The best way to get support is to file an issue on GitHub: https://github.com/mailchannels/mailchannels-email-api-ruby/issues
+
+If you are a MailChannels customer and have a problem with the operation of the MailChannels service, you can get support at https://support.mailchannels.com/
