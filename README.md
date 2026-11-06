@@ -1,5 +1,9 @@
 # MailChannels Email API Ruby client
 
+A Ruby library for MailChannels Email API. Send transactional email, such as
+sign-up confirmations, password resets, receipts and notifications, from your
+Ruby app.
+
 Published on RubyGems as [`mailchannels-email-api`](https://rubygems.org/gems/mailchannels-email-api).
 This repository is the public development source. See [Support](#support) for
 how to get help.
